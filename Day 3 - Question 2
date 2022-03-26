@@ -1,0 +1,16 @@
+//Remove Duplicates from Sorted Array
+
+int removeDuplicates(vector<int>& nums) {
+        int i =0, j=0, n= nums.size();
+        if( n < 2 ){
+            return n;
+        }
+        while( i<n && j<n ){
+            nums[i] = nums[j];
+            while( j<n && nums[j] == nums[i] ){
+                j++;
+            }
+            i++;
+        }
+        return i;
+    }
