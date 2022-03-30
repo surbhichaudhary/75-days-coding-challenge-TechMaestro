@@ -1,0 +1,25 @@
+void combination(vector<int>& in, vector<int> out, int s ,int i, int t,vector<vector<int>>& ans ){
+    if( s > t ){
+        return;
+    }
+    if( s == t ){
+        ans.push_back(out);
+        return;
+    }
+
+    for( int j = i ; j < in.size() ; j++ ){
+        out.push_back(in[j]);
+        s+= in[j];
+        combination(in, out, s, j, t, ans);
+        out.pop_back();
+        s -= in[j];
+    }
+    return;
+}
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> out;
+        combination(candidates, out, 0, 0, target, ans);
+        return ans;
+    }
