@@ -1,0 +1,24 @@
+int findPairs(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;
+        int n = nums.size(), ans =0;
+        
+        for( int i =0 ; i< n;i++ ){
+            mp[nums[i]]++;
+        }
+        if( k != 0 ){
+            for( auto i : mp ){
+                int x = i.first;
+                if( mp.count( x+k) ){
+                    ans++;
+                }
+            }
+        }
+        else{
+            for( auto i : mp ){
+                if( i.second > 1 ){
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
