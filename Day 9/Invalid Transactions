@@ -1,0 +1,61 @@
+bool varify(string name, int time, string price, string c){
+            auto [amount, city] =  details[name][time];
+            if(city != c) return true;
+        return false;
+    }
+    unordered_map<string, unordered_map<int, pair<int,string>>> details;
+
+    vector<string> invalidTransactions(vector<string>& t) {
+        
+        unordered_map<string, vector<pair<int,int>>> time;
+        set<int> temp;
+        sort(t.begin(),t.end(), [](string&  a1, string&  a2){
+            stringstream ss(a1);
+            string line;
+            vector<string> p1;
+            while(getline(ss,line,',')){
+                p1.push_back(line);
+            }
+            
+            stringstream ss2(a2);
+            string line2;
+            vector<string> p2;
+            
+            while(getline(ss2,line2,',')){
+                p2.push_back(line2);
+            }
+            int pre = stoi(p1[1]);
+            int next = stoi(p2[1]);
+            return pre < next;
+        });
+        
+        int n = t.size();
+        for(int i = 0; i<n; i++){
+            //for time
+            stringstream ss(t[i]);
+            string line;
+            vector<string> p;
+            
+            while(getline(ss,line,',')){
+                p.push_back(line);
+            }
+            if(stoi(p[2]) > 1000){
+                temp.insert(i);
+            }
+            if(time.find(p[0])!=time.end()){
+                for(auto tt: time[p[0]]){
+                    if(abs(tt.first-stoi(p[1]))<=60 && varify(p[0], tt.first, p[2], p[3])){
+                        temp.insert(tt.second);
+                        temp.insert(i);
+                    }
+                }
+            }
+            time[p[0]].push_back(make_pair(stoi(p[1]), i));
+            details[p[0]][stoi(p[1])] = {stoi(p[2]),p[3]};
+        }
+        vector<string> ans;
+        for(int i: temp){
+            ans.push_back(t[i]);
+        }
+        return ans;
+    }
