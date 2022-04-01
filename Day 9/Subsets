@@ -1,0 +1,17 @@
+void sub( vector<int>& in, vector<int> out, int i, vector<vector<int>>& ans ){
+        if( i>= in.size() ){
+            ans.push_back(out);
+            return;
+        }
+        sub(in, out, i+1, ans);
+        out.push_back(in[i]);
+        sub(in, out, i+1, ans);
+        return ;
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int>  out;
+        sub( nums, out, 0, ans);
+        return ans;
+    }
