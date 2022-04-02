@@ -1,0 +1,28 @@
+int maxProfit(vector<int>& prices) {
+        int n = prices.size(), mp =0, min_here = prices[0];
+        int sp[n];
+        sp[0] =0;
+        
+        for( int i = 1 ;i<n ;i++ ){
+            min_here = min(  min_here, prices[i] );
+            mp = (prices[i] - min_here) ;
+            sp[i] = max( mp, sp[i-1]);
+        }
+        
+        int max_here = prices[n-1];
+        mp = 0;
+        int bp[n];
+        bp[n-1] = 0;
+        for( int i =n-2; i>=0 ; i-- ){
+            max_here = max( max_here, prices[i] );
+            mp = max_here-prices[i];
+            bp[i] = max( bp[i+1], mp);
+        }
+        mp=0;
+        for( int i =0 ;i<n ; i++ ){
+            sp[i] += bp[i];
+            mp = max( mp, sp[i] );
+        }
+        
+        return mp;
+    }
