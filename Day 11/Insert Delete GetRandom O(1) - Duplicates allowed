@@ -1,0 +1,54 @@
+unordered_map<int, unordered_set<int> > mp;
+    vector<int> v;
+    
+    RandomizedCollection() {
+        
+    }
+    
+    bool insert(int val) {
+        v.push_back( val );
+        int n = v.size()-1;
+        mp[val].insert(n);
+        
+        return ( mp[val].size() == 1 );
+    }
+  /*vector<int> pos = mp[val];
+        int n = pos.size(), m = v.size();
+        int i = pos[n-1]; // last index of val
+        swap(v[i], v[m-1] );
+        v.pop_back();
+        pos.pop_back();
+        if( i < v.size() ){
+            mp[v[i]].pop_back();
+            mp[v[i]].push_back(i);
+        }
+        if( pos.size() == 0 ){
+            mp.erase(val);
+        }
+*/
+    bool remove(int val) {
+        if( mp.find(val) == mp.end() ){
+            return false;
+        }
+        
+        int ind = *mp[val].begin();
+        int n = v.size()-1;
+        mp[val].erase(ind); // remove that index
+        
+        if( ind != n ){
+            mp[v[n]].erase(n);
+            mp[v[n]].insert(ind);
+            swap( v[ind], v[n] );
+        }
+        v.pop_back();
+        
+        if(mp[val].size() == 0 ){
+            mp.erase(val);
+        }
+        return true;
+    }
+    
+    int getRandom() {
+        int n = rand() % v.size();
+        return v[n];
+    }
