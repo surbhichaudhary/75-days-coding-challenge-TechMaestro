@@ -1,0 +1,22 @@
+vector<int> partitionLabels(string s) {
+        unordered_map<char,int> mp;
+        for( int i=0 ; i< s.length(); i++ ){
+            mp[s[i]] = i;
+        }
+        
+        int i=0, j=0, r=0, c=0;
+        vector<int> ans;
+        while( i < s.length() ){
+            r = max( r, mp[s[i]] );
+            j = i;
+            
+            while( j<r ){
+                r = max( r, mp[s[j]] );
+                j++;
+            }
+            int l = j-i+1;
+            ans.push_back(l);
+            i= j+1;
+        }
+        return ans;
+    }
