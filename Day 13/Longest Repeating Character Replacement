@@ -1,0 +1,22 @@
+int characterReplacement(string s, int k) {
+        unordered_map<char, int> mp;
+        int n = s.length(), j=0, i=0, maxf = 0, ans =0;
+        while( j < n ){
+            mp[s[j]]++;
+            maxf = max( maxf, mp[s[j]] );
+            if( j-i+1 - maxf <= k ){
+                ans = max( ans, j-i+1 );
+            }
+            if( j-i+1 - maxf > k ){
+                while( j-i+1 - maxf > k ){
+                    mp[s[i]]--;
+                    if( mp[s[i]] == 0 ){
+                        mp.erase(s[i]);
+                    }
+                    i++;
+                }
+            }
+            j++;
+        }
+        return ans;
+    }
