@@ -1,0 +1,39 @@
+int atleast(vector<int>nums,int k){
+    int n=n=nums.size();
+    
+    if(k==0) return 0;
+    
+    // unordered_map<num,freq_of_num>
+    unordered_map<int,int>numbers;
+    int st=0,end=-1,count=0;
+
+    while(end<n){
+        //keep acquiring till map size is <= k
+        ++end;
+        while(end<n){
+            numbers[nums[end]]++;
+            if(numbers.size()>k) break;
+
+            count+=(end-st+1);
+            ++end;
+        }
+        
+        if(end==n) break;
+        
+        //keep releasing until we get the valid size again
+        while(st<=end){
+            numbers[nums[st]]--;
+            if(numbers[nums[st]]==0) numbers.erase(nums[st]);
+            ++st;
+            if(numbers.size()==k){
+                count+=(end-st+1);
+                break;
+            }
+        }
+    }
+    return count;
+}
+
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return (atleast(nums, k)- atleast(nums, k-1));
+    }
