@@ -1,0 +1,38 @@
+int divide(int dividend, int divisor) {
+        if( dividend == 0 ){
+            return 0;
+        }
+
+        long long sign, q=0, divide = dividend, div = divisor, t=0;
+        
+        if( (divide < 0 && div < 0) || (divide > 0 && div > 0) ){
+            sign = 1;
+        }
+        else{
+            sign = -1;
+        }
+        divide = abs(divide);
+        div = abs(div);
+        
+        if( div == 1 ){
+            q = divide;
+        }
+        else{
+            for( int i = 31; i>=0 ; i-- ){
+                if( t + (div<<i) <= divide ){
+                    t += div<<i;
+                    q |= 1LL << i ;
+                }
+            }
+        }
+        q *= sign;
+        
+        if( q > 2147483647 ){
+            q = 2147483647 ;
+        }
+        
+        if( q < -2147483648 ){
+            q = -2147483648;
+        }
+        return (int)q;
+    }
