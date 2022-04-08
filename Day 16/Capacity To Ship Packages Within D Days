@@ -1,0 +1,44 @@
+#include<algorithm>
+class Solution {
+    
+    bool isValid(vector<int>& weights, int n, long long wgt, int d){
+        int k =0, sum=0;
+        for( int i=0; i< n; i++ ){
+            sum += weights[i];
+            if( sum > wgt ){
+                k++;
+                sum = weights[i];
+            }
+            if( k>d ){
+                return false;
+            }
+        }
+        k++;
+        return (k <= d );
+    }
+    
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        long long n = weights.size(), ans =0, e =0, s=0;
+        
+        for( int i=0; i<n ;i++ ){
+            e += weights[i];
+            s =(  s >=  weights[i]) ? s : weights[i];
+        }
+       
+        if( n == days ){
+            return s;
+        }
+        while( s<=e ){
+            long long m = s+ (e-s)/2;
+            if( isValid(weights, n, m, days) ){
+                e = m-1;
+                ans = m;
+            }
+            else {
+                s = m+1;
+            }
+        }
+        return ans;                            
+    }
+};
