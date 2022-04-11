@@ -1,0 +1,33 @@
+class Solution {
+    
+    bool larger( string next, string curr, unordered_map<char,int> mp ){
+        for( int i=0 ; i < curr.length() && i < next.length() ; i++ ){
+            if( mp[next[i]] > mp[curr[i]] ){
+                return false;
+            }
+            if( mp[next[i]] < mp[curr[i]] ){
+                return true;
+            }
+        }
+        return (next.length() < curr.length() );
+    }
+    
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        unordered_map<char,int> mp;
+        for( int i=0 ; i < order.length(); i++ ){
+            mp[order[i]] = i;
+        }
+        
+        unordered_map<int,int> score;
+        for( int i = 0 ; i < words.size()-1 ; i++ ){
+            string s = words[i];
+            string t = words[i+1];
+            if( larger( t, s, mp ) ){
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
