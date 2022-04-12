@@ -1,0 +1,42 @@
+class Solution {
+    
+    pair<ListNode*, ListNode*> reverse( ListNode* head ){
+        pair<ListNode*, ListNode*> ans;
+        if( !head || !head->next ){
+            ans.first = head;
+            ans.second = head;
+            return ans;
+        }
+        ListNode* t = head;
+        head = head->next;
+        t->next = NULL;
+        ans = reverse(head);
+        ans.second->next = t;
+        ans.second = t;
+        return ans;
+    }
+    
+public:
+    bool isPalindrome(ListNode* head) {
+        if( !head || !head->next ){
+            return true;
+        }
+        ListNode* s = head;
+        ListNode* f = head->next;
+        while( f && f->next ){
+            s = s->next;
+            f = f->next->next;
+        }
+        pair<ListNode*, ListNode*> ans = reverse(s->next);
+        ListNode* m = ans.first;
+        
+        while( m ){
+            if( m->val != head->val ){
+                return false;
+            }
+            m = m->next;
+            head = head->next;
+        }
+        return true;
+    }
+};
