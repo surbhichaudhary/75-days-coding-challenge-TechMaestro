@@ -1,0 +1,27 @@
+class Solution {
+    
+    pair<ListNode*, ListNode*> reverse( ListNode* head ){
+        pair<ListNode*, ListNode*> ans;
+        if( !head || !head->next ){
+            ans.first = head;
+            ans.second = head;
+            return ans;
+        }
+        ListNode* t = head;
+        head = head->next;
+        t->next = NULL;
+        ans = reverse(head);
+        ans.second->next = t;
+        ans.second = t;
+        return ans;
+    }
+    
+public:
+    ListNode* reverseList(ListNode* head) {
+        if( !head || !head->next ){
+            return head;
+        }
+        pair<ListNode*, ListNode*> ans = reverse(head);
+        return ans.first;
+    }
+};
