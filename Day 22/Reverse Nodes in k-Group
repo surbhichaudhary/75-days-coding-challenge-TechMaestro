@@ -1,0 +1,53 @@
+class Solution {
+    
+    pair< ListNode*, ListNode* > reverse( ListNode* head ){
+        pair<ListNode*,ListNode*> ans;
+        if( !head || !head->next ){
+            ans.first = head;
+            ans.second = head;
+            return ans;
+        }
+        ListNode* t = head;
+        head = t->next;
+        t->next = NULL;
+        ans = reverse(head);
+        ans.second->next = t;
+        ans.second = t;
+        return ans;
+    }
+    
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!head || !head->next ){
+            return head;
+        }
+        ListNode* f1 = head;
+        ListNode* f2 = head;
+        pair< ListNode*, ListNode* > ans;
+        
+        while( f1 && f2 ){
+            for( int i=1; f2 != NULL && i <k ;i++ ){
+                f2 = f2->next;
+            }
+            if( !f2 ){
+                return head;
+            }
+            ListNode* t = f2->next;
+            f2->next = NULL;
+            if( head == f1 ){
+                ans = reverse(f1);
+                head = ans.first;
+            }
+            else{
+                f2 = ans.second;
+                ans = reverse(f1);
+                f2->next = ans.first;
+            }
+            ans.second->next = t;
+            f1 = t;
+            f2 = t;
+        }
+        return head;
+        
+    }
+};
