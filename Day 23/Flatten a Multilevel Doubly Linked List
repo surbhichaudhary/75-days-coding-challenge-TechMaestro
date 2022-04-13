@@ -1,0 +1,44 @@
+class Solution {
+    
+    void queueing( Node* head, queue<int>& q ){
+        if( !head ){
+            return;
+        }
+        q.push(head->val);
+        if( head->child ){
+            queueing( head->child, q);
+        }
+        queueing(head->next, q);
+        return;
+    }
+    
+public:
+    Node* flatten(Node* head) {
+        if( !head ){
+            return head;
+        }
+        queue<int> q;
+        queueing(head, q);
+        
+        Node* fh = NULL;
+        Node* ft = NULL;
+        
+        while( !q.empty() ) {
+            Node* n = new Node(q.front());
+            n->child = NULL; 
+            n->prev = ft;
+            
+            if( !fh ){
+                fh = n;
+                ft = n;
+            }
+            else{
+                ft->next = n;
+            }
+            ft = n;
+            q.pop();
+            
+        }
+        return fh;
+    }
+};
