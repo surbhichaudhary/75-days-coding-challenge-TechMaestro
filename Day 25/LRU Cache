@@ -1,0 +1,69 @@
+class LRUCache {
+    public:
+    class Node{
+        public:
+        int key;
+        int val;
+        Node* next;
+        Node* prev;
+        
+        Node( int k, int v ){
+            key = k;
+            val = v;
+            next = NULL;
+            prev = NULL;
+        }
+    };
+    
+    Node* head = new Node(-1,-1);
+    Node* tail = new Node(-1,-1);
+    int s =0;
+    
+    unordered_map<int, Node*> mp;
+    
+    LRUCache(int capacity) {
+        s = capacity;
+        mp.clear();
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    void add_node( Node* fh ){
+        fh->next = head->next;
+        head->next->prev = fh;
+        head->next = fh;
+        fh->prev = head;
+    }
+    
+    void delete_node(Node* ft ){
+        ft->prev->next = ft->next;
+        ft->next->prev = ft->prev;
+    }
+    
+    int get(int key) {
+        if( mp.count( key) ){
+            Node* n = mp[key];
+            int ans =n->val;
+            mp.erase(key);
+            delete_node(n);
+            add_node(n);
+            mp[key] = head->next;
+            return ans;
+        }
+        return (-1);
+    }
+    
+    void put(int key, int value) {
+        if( mp.count(key) ){
+            Node* n = mp[key];
+            mp.erase(key);
+            delete_node(n);
+        }
+        if( mp.size() == s ){
+            mp.erase(tail->prev->key);
+            delete_node(tail->prev);
+        }
+        add_node(new Node(key, value));
+        mp[key] = head->next;
+    }
+};
