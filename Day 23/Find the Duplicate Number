@@ -1,13 +1,23 @@
 int findDuplicate(vector<int>& nums) {
         int n = nums.size();
-        for( int i=0 ;i< n; i++ ){
-            int ind = nums[i]%n;
-            nums[ind] += n;
+        
+        if( n == 0 ){
+            return -1;
         }
-        for( int i=0 ;i< n; i++ ){
-            if( nums[i]/n >= 2 ){
-                return i;
-            }
+        
+        int f = nums[0];
+        int s = nums[0];
+        
+        do{
+            f = nums[nums[f]];
+            s = nums[s];
+        }while( f != s );
+        
+        s = nums[0];
+        while( s!=f ){
+            s = nums[s];
+            f = nums[f];
         }
-        return (-1);
+        
+        return s;
     }
