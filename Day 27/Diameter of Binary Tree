@@ -1,0 +1,22 @@
+class Solution {
+    
+    pair<int,int> hd( TreeNode* root ){
+        pair<int,int> ans;
+        if( root == NULL ){
+            ans.first = 0;
+            ans.second =0;
+            return ans;
+        }
+        pair<int,int> la = hd( root->left );
+        pair<int,int> ra = hd( root->right);
+        ans.first = 1 + max(la.first, ra.first );
+        ans.second = max( (la.first + ra.first), max( la.second, ra.second) );
+        return ans;
+    }
+    
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        pair<int,int> ans = hd(root);
+        return ans.second;
+    }
+};
