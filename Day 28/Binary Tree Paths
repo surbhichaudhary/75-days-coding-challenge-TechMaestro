@@ -1,0 +1,53 @@
+#include <iostream>  
+#include <string>  
+
+class Solution {
+    
+    void path( TreeNode* root, vector<string>& ans, string out ){
+        out += "->";
+        out += (to_string(root->val));
+        
+        if( !root->left && !root->right ){
+            ans.push_back(out);
+            return;
+        }
+        else if( !root->left ){
+            path( root->right, ans, out );
+            return;
+        }
+        else if( !root->right ){
+            path( root->left, ans, out );
+            return;
+        }
+        path( root->right, ans, out );
+        path( root->left, ans, out );
+        return;
+    }
+    
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> ans;
+        string out ="";
+        if( !root ){
+            return ans;
+        }
+        
+        out += (to_string(root->val));
+        
+        if( !root->left && !root->right ){
+            ans.push_back(out);
+        }
+        else if( !root->left ){
+            path( root->right, ans, out );
+        }
+        else if( !root->right ){
+            path( root->left, ans, out );
+        }
+        else{
+            path( root->right, ans, out );
+            path( root->left, ans, out );
+        }
+        
+        return ans;
+    }
+};
