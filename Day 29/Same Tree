@@ -1,0 +1,11 @@
+bool isSameTree(TreeNode* p, TreeNode* q) {
+        if( !p || !q ){
+            return ( p==q );
+        }
+        if( p->val == q->val ){
+            bool la = isSameTree( p->left, q->left);
+            bool ra = isSameTree( p->right, q->right);
+            return ( la && ra );
+        }
+        return false;
+    }
