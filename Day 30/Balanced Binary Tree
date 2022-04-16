@@ -1,0 +1,29 @@
+class Solution {
+    
+    pair<bool,int> bal_hgt( TreeNode* root ){
+        pair<bool,int> ans;
+        if( !root ){
+            ans.first = true;
+            ans.second = 0;
+            return ans;
+        }
+        pair<bool,int> la = bal_hgt( root->left );
+        pair<bool,int> ra = bal_hgt( root->right );
+        
+        ans.first = la.first && ra.first && ( abs( la.second - ra.second ) <= 1 );
+        ans.second = 1 + max( la.second, ra.second );
+        
+        return ans;
+            
+    }
+    
+public:
+    bool isBalanced(TreeNode* root) {
+        if( !root ){
+            return true;
+        }
+        
+        pair<bool,int> ans = bal_hgt( root );
+        return ans.first;
+    }
+};
