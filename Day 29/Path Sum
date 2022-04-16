@@ -1,0 +1,35 @@
+class Solution {
+    bool help( TreeNode* root, int t, int sum ){
+        if( root == NULL ){
+            if( sum == t ){
+                return true;
+            }
+            return false;
+        }
+        sum += root->val;
+        if( !root->left && !root->right ){
+            if( sum == t ){
+                return true;
+            }
+            return false;
+        }
+        else if( !root->left ){
+            return help(root->right, t, sum );
+        }
+        else if( !root->right ){
+            return help(root->left, t, sum );
+        }
+        bool la = help(root->left, t, sum );
+        bool ra = help(root->right, t, sum );
+        return (la||ra);
+    }
+    
+public:
+    bool hasPathSum(TreeNode* root, int t) {
+        if( root == NULL ){
+            return false;
+        }
+        int sum = 0;
+        return help(root, t, sum );
+    }
+};
