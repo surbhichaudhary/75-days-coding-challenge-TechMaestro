@@ -1,0 +1,24 @@
+int widthOfBinaryTree(TreeNode* root) {
+        if( !root ){
+            return 0;
+        }
+        vector<pair<TreeNode*, unsigned int>> q;
+        q.push_back({root, 1});
+        
+        int ret = 1;
+        while (!q.empty()) {
+            int curr_level_n = q.size();
+            ret = max(ret, int(q[curr_level_n - 1].second - q[0].second + 1));
+            for (int i = 0; i < curr_level_n; ++i) {
+                if (q[i].first->left) {
+                    q.push_back({q[i].first->left, q[i].second << 1});
+                }
+                if (q[i].first->right) {
+                    q.push_back({q[i].first->right, (q[i].second << 1) + 1});
+                }
+            }
+            q.erase(q.begin(), q.begin() + curr_level_n);
+        }
+        
+        return ret;
+    }
