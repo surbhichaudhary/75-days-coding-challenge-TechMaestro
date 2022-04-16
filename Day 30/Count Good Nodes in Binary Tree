@@ -1,0 +1,26 @@
+class Solution {
+    
+    void good( TreeNode* root, int mx, int& c ){
+        if( !root ){
+            return;
+        }
+        mx = max( root->val, mx );
+        if( mx == root->val ){
+            c++;
+        }
+        good( root->left, mx, c);
+        good( root->right, mx, c);
+        return;
+    }
+    
+    
+public:
+    int goodNodes(TreeNode* root) {
+        if( !root ){
+            return 0;
+        }
+        int c =0, mx = root->val;
+        good( root, mx, c );
+        return c;
+    }
+};
