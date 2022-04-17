@@ -1,0 +1,43 @@
+vector<int> rightSideView(TreeNode* root) {
+        vector<int> ans;
+        if( !root ){
+            return ans;
+        }
+        
+        unordered_map<int, int> mp;
+        queue< pair<TreeNode*, int> > q;
+        
+        q.push( {root, 0} );
+        q.push( {NULL, 0} );
+        int mx = 0;
+        
+        while( !q.empty() ){
+            pair<TreeNode*, int> f = q.front();
+            TreeNode* n = f.first;
+            int lvl = f.second;
+            q.pop();
+            
+            if( !n ){
+                if( q.empty() ){
+                    break;
+                }
+                q.push( {NULL, lvl+1} );
+            }
+            else{
+                mp[lvl] = n->val;
+                mx = max(mx, lvl);
+                
+                if( n->left ){
+                    q.push( { n->left , lvl+1 } );
+                }
+                if( n->right ){
+                    q.push( { n->right , lvl+1 } );
+                }
+            }   
+        }
+        
+        for(int i=0; i<= mx; i++ ){
+            ans.push_back(mp[i]);
+        }
+        return ans;
+    }
